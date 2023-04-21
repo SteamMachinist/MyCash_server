@@ -2,6 +2,7 @@ package tp35.mycashserver.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.*;
 import org.hibernate.Hibernate;
 import tp35.mycashserver.model.CategoryType;
@@ -10,10 +11,11 @@ import java.awt.*;
 import java.util.Objects;
 
 @Entity
+@Table(name="base_category")
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
+@NoArgsConstructor
 public class BaseCategoryEntity {
     @Id
     private Long id;

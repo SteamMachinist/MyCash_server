@@ -1,9 +1,6 @@
 package tp35.mycashserver.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
 
@@ -11,10 +8,11 @@ import java.awt.*;
 import java.util.Objects;
 
 @Entity
+@Table(name="category")
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
+@NoArgsConstructor
 public class CategoryEntity {
     @Id
     private Long id;
@@ -25,7 +23,7 @@ public class CategoryEntity {
     @JoinColumn(name = "user_id")
     private UserEntity user;
     private Boolean isLimited;
-    private Double limit;
+    private Double spendingLimit;
     private Color color;
 
     @Override

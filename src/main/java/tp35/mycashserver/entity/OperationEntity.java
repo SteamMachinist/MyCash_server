@@ -1,19 +1,19 @@
 package tp35.mycashserver.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
+@Table(name="operation")
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
+@NoArgsConstructor
 public class OperationEntity {
     @Id
     private Long id;
@@ -24,6 +24,7 @@ public class OperationEntity {
     @JoinColumn(name = "category_id")
     private CategoryEntity category;
     private Double value;
+    private LocalDateTime dateTime;
 
     @Override
     public boolean equals(Object o) {

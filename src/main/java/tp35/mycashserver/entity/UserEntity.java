@@ -2,16 +2,19 @@ package tp35.mycashserver.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.*;
 import org.hibernate.Hibernate;
 
 import java.util.Objects;
 
 @Entity
+@Table(name="app_user")
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
+@NoArgsConstructor
 public class UserEntity {
     @Id
     private Long id;
