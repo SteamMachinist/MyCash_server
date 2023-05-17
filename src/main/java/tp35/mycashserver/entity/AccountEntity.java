@@ -22,7 +22,7 @@ public class AccountEntity {
     private Double balance;
     private Double target;
     private Boolean isLimited;
-    private Double limit;
+    private Double spendingLimit;
 
     @Override
     public boolean equals(Object o) {

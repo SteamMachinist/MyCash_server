@@ -10,5 +10,5 @@ public class Account {
     Double balance;
     Double target;
     Boolean isLimited;
-    Double limit;
+    Double spendingLimit;
 }
