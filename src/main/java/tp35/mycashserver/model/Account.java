@@ -9,4 +9,6 @@ public class Account {
     String name;
     Double balance;
     Double target;
+    Boolean isLimited;
+    Double limit;
 }

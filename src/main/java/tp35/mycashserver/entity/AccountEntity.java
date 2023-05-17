@@ -21,6 +21,8 @@ public class AccountEntity {
     private String name;
     private Double balance;
     private Double target;
+    private Boolean isLimited;
+    private Double limit;
 
     @Override
     public boolean equals(Object o) {
