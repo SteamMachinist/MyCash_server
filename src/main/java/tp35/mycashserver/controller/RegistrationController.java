@@ -10,7 +10,7 @@ import tp35.mycashserver.model.User;
 public class RegistrationController {
     @GetMapping("/mple")
     public User example() {
-        return new User(123L, "Kikita");
+        return new User(123L, "Kikita", "1234567890");
     }
 }
 
