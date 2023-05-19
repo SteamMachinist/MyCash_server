@@ -13,16 +13,16 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserToEntityMapper userMapper;
 
-    public User getUserById(Long id) {
+    public User getById(Long id) {
         return userRepository.findById(id).map(userMapper::userEntityToUser).orElse(new User(null, null, null));
     }
 
-    public User getUserByToken(String token) {
-        return userMapper.userEntityToUser(userRepository.findByToken(token));
+    public User getByUsername(String username) {
+        return userMapper.userEntityToUser(userRepository.findByUsername(username));
     }
 
-    public void addUser(User user) {
+    public void add(User user) {
         //userRepository.save(userMapper.userToUserEntity(user));
-        userRepository.save(new UserEntity(user.getId(), user.getName(), user.getToken()));
+        userRepository.save(new UserEntity(user.getId(), user.getUsername(), user.getPassword()));
     }
 }
