@@ -17,8 +17,8 @@ public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String name;
-    private String token;
+    private String username;
+    private String password;
 
     @Override
     public boolean equals(Object o) {
