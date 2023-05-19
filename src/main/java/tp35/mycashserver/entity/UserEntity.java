@@ -1,8 +1,6 @@
 package tp35.mycashserver.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
 
@@ -13,12 +11,14 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString
-//@RequiredArgsConstructor
+@AllArgsConstructor
 @NoArgsConstructor
 public class UserEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
+    private String token;
 
     @Override
     public boolean equals(Object o) {
