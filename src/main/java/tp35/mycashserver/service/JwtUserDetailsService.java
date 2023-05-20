@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import tp35.mycashserver.mapper.UserToEntityMapper;
 import tp35.mycashserver.model.JwtUserDetails;
@@ -25,7 +24,7 @@ public class JwtUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(final String username) {
         User user = userToEntityMapper.userEntityToUser(userRepository.findByUsername(username));
-        return new JwtUserDetails(user.getId(), username, Integer.toString(user.hashCode()), Collections.singletonList(new SimpleGrantedAuthority(ROLE_USER)));
+        return new JwtUserDetails(user.getId(), username, user.getPassword(), Collections.singletonList(new SimpleGrantedAuthority(ROLE_USER)));
     }
 
 }
