@@ -1,6 +1,7 @@
 package tp35.mycashserver.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import tp35.mycashserver.entity.UserEntity;
 import tp35.mycashserver.mapper.UserToEntityMapper;
@@ -13,6 +14,8 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserToEntityMapper userMapper;
 
+    private final PasswordEncoder encoder;
+
     public User getById(Long id) {
         return userRepository.findById(id).map(userMapper::userEntityToUser).orElse(new User(null, null, null));
     }
@@ -22,7 +25,7 @@ public class UserService {
     }
 
     public void add(User user) {
-        //userRepository.save(userMapper.userToUserEntity(user));
+        user.setPassword(encoder.encode(user.getPassword()));
         userRepository.save(new UserEntity(user.getId(), user.getUsername(), user.getPassword()));
     }
 }
