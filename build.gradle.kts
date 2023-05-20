@@ -34,11 +34,6 @@ dependencies {
 
 	implementation ("com.auth0:java-jwt:4.4.0")
 
-//	implementation ("io.jsonwebtoken:jjwt-api:JJWT_RELEASE_VERSION")
-//	runtimeOnly ("io.jsonwebtoken:jjwt-impl:JJWT_RELEASE_VERSION")
-//	runtimeOnly ("io.jsonwebtoken:jjwt-jackson:JJWT_RELEASE_VERSION")
-
-
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.security:spring-security-test")
 }
