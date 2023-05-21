@@ -3,8 +3,10 @@ package tp35.mycashserver.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
+import tp35.mycashserver.model.Role;
 
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name="app_user")
@@ -19,6 +21,8 @@ public class UserEntity {
     private Long id;
     private String username;
     private String password;
+    @Enumerated(EnumType.STRING)
+    private Set<Role> roles;
 
     @Override
     public boolean equals(Object o) {
