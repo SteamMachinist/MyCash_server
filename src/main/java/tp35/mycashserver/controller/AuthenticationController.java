@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import tp35.mycashserver.model.Account;
+import tp35.mycashserver.model.Role;
 import tp35.mycashserver.model.User;
 import tp35.mycashserver.request.AuthenticationRequest;
 import tp35.mycashserver.request.FirstAccountRequest;
@@ -23,6 +24,7 @@ import tp35.mycashserver.service.JwtTokenService;
 import tp35.mycashserver.service.JwtUserDetailsService;
 import tp35.mycashserver.service.UserService;
 
+import java.util.Collections;
 import java.util.UUID;
 
 @RestController
@@ -37,7 +39,7 @@ public class AuthenticationController {
 
     @PostMapping("/new")
     public TokenResponse newUserWithAccount(@RequestBody FirstAccountRequest firstAccountRequest) {
-        User user = new User(null, UUID.randomUUID().toString(), "");
+        User user = new User(null, UUID.randomUUID().toString(), "", Collections.singleton(Role.UNREGISTERED));
         userService.add(user);
         Account account = new Account(null,
                 userService.getByUsername(user.getUsername()),
@@ -69,6 +71,7 @@ public class AuthenticationController {
         User user = userService.getByUsername(oldUsername);
         user.setUsername(registerRequest.getNewUsername());
         user.setPassword(registerRequest.getPassword());
+        user.setRoles(Collections.singleton(Role.REGISTERED));
         userService.add(user);
 
         final UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(user.getUsername());
