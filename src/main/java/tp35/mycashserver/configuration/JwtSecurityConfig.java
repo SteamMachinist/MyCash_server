@@ -12,9 +12,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import tp35.mycashserver.model.Role;
 import tp35.mycashserver.security.JwtRequestFilter;
-
-import static tp35.mycashserver.service.JwtUserDetailsService.USER;
 
 @Configuration
 @RequiredArgsConstructor
@@ -42,7 +41,8 @@ public class JwtSecurityConfig {
                 .httpBasic().disable()
                 .authorizeHttpRequests()
                 .requestMatchers("/api/auth/new", "/api/auth/login").permitAll()
-                .anyRequest().hasRole(USER)
+                .requestMatchers("/api/auth/register").hasAuthority(Role.UNREGISTERED.getAuthority())
+                .anyRequest().hasAnyAuthority(Role.UNREGISTERED.getAuthority(), Role.REGISTERED.getAuthority())
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
