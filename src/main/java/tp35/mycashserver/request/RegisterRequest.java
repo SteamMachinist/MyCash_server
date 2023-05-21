@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class RegisterRequest {
-    String newUsername;
-    String password;
+    private final String newUsername;
+    private final String password;
 }

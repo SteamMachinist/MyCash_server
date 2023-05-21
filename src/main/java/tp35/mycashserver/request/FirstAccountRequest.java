@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class FirstAccountRequest {
-    private final String name;
-    private final Double balance;
+    private final String accountName;
+    private final Double accountBalance;
 }
