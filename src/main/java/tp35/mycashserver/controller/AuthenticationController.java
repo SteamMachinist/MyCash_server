@@ -17,6 +17,7 @@ import tp35.mycashserver.model.User;
 import tp35.mycashserver.request.AuthenticationRequest;
 import tp35.mycashserver.request.FirstAccountRequest;
 import tp35.mycashserver.request.RegisterRequest;
+import tp35.mycashserver.response.TokenResponse;
 import tp35.mycashserver.service.AccountService;
 import tp35.mycashserver.service.JwtTokenService;
 import tp35.mycashserver.service.JwtUserDetailsService;
@@ -35,17 +36,21 @@ public class AuthenticationController {
     private final AuthenticationManager authenticationManager;
 
     @PostMapping("/new")
-    public String newUserWithAccount(@RequestBody FirstAccountRequest firstAccountRequest) {
+    public TokenResponse newUserWithAccount(@RequestBody FirstAccountRequest firstAccountRequest) {
         User user = new User(null, UUID.randomUUID().toString(), "");
         userService.add(user);
-        Account account = new Account(null, userService.getByUsername(user.getUsername()), firstAccountRequest.getName(), firstAccountRequest.getBalance(), null, false, null);
+        Account account = new Account(null,
+                userService.getByUsername(user.getUsername()),
+                firstAccountRequest.getAccountName(),
+                firstAccountRequest.getAccountBalance(),
+                null, false, null);
         accountService.add(account);
         final UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(user.getUsername());
-        return jwtTokenService.generateToken(userDetails);
+        return new TokenResponse(jwtTokenService.generateToken(userDetails));
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody AuthenticationRequest authenticationRequest) {
+    public TokenResponse login(@RequestBody AuthenticationRequest authenticationRequest) {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                     authenticationRequest.getUsername(), authenticationRequest.getPassword()));
@@ -54,11 +59,11 @@ public class AuthenticationController {
         }
 
         final UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(authenticationRequest.getUsername());
-        return jwtTokenService.generateToken(userDetails);
+        return new TokenResponse(jwtTokenService.generateToken(userDetails));
     }
 
     @PostMapping("/register")
-    public String register(@RequestBody RegisterRequest registerRequest) {
+    public TokenResponse register(@RequestBody RegisterRequest registerRequest) {
         String oldUsername = SecurityContextHolder.getContext().getAuthentication().getName();
 
         User user = userService.getByUsername(oldUsername);
@@ -67,6 +72,6 @@ public class AuthenticationController {
         userService.add(user);
 
         final UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(user.getUsername());
-        return jwtTokenService.generateToken(userDetails);
+        return new TokenResponse(jwtTokenService.generateToken(userDetails));
     }
 }
