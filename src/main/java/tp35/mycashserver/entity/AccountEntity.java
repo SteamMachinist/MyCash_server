@@ -13,6 +13,8 @@ import java.util.Objects;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 public class AccountEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

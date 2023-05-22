@@ -4,10 +4,12 @@ import lombok.Value;
 
 import java.awt.*;
 
-@Value
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class BaseCategory {
-    Long id;
-    String name;
-    CategoryType type;
-    Color color;
+    private Long id;
+    private String name;
+    private CategoryType type;
+    private Color color;
 }

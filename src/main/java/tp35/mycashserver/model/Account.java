@@ -9,11 +9,11 @@ import lombok.Value;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Account {
-    Long id;
-    User owner;
-    String name;
-    Double balance;
-    Double target;
-    Boolean isLimited;
-    Double spendingLimit;
+    private Long id;
+    private User owner;
+    private String name;
+    private Double balance;
+    private Double target;
+    private Boolean isLimited;
+    private Double spendingLimit;
 }

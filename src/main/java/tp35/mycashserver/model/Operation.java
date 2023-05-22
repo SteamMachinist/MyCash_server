@@ -4,11 +4,13 @@ import lombok.Value;
 
 import java.time.LocalDateTime;
 
-@Value
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Operation {
-    Long id;
-    Account account;
-    Category category;
-    Double value;
-    LocalDateTime dateTime;
+    private Long id;
+    private Account account;
+    private Category category;
+    private Double value;
+    private LocalDateTime dateTime;
 }

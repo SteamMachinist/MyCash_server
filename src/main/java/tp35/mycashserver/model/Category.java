@@ -6,12 +6,14 @@ import tp35.mycashserver.entity.UserEntity;
 
 import java.awt.*;
 
-@Value
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Category {
-    Long id;
-    BaseCategoryEntity baseCategory;
-    UserEntity user;
-    Boolean isLimited;
-    Double spendingLimit;
-    Color color;
+    private Long id;
+    private BaseCategoryEntity baseCategory;
+    private UserEntity user;
+    private Boolean isLimited;
+    private Double spendingLimit;
+    private Color color;
 }

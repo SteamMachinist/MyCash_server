@@ -14,8 +14,11 @@ import java.util.Objects;
 @ToString
 //@RequiredArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 public class OperationEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @ManyToOne
     @JoinColumn(name = "account_id")
