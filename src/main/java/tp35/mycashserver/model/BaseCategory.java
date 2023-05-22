@@ -1,6 +1,8 @@
 package tp35.mycashserver.model;
 
-import lombok.Value;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.awt.*;
 

@@ -12,10 +12,8 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString
-//@RequiredArgsConstructor
 @NoArgsConstructor
 @AllArgsConstructor
-@NoArgsConstructor
 public class OperationEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

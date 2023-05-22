@@ -1,8 +1,6 @@
 package tp35.mycashserver.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
 import tp35.mycashserver.model.CategoryType;
@@ -17,7 +15,6 @@ import java.util.Objects;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@NoArgsConstructor
 public class BaseCategoryEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
