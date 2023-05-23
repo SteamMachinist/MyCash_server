@@ -3,8 +3,11 @@ package tp35.mycashserver.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import tp35.mycashserver.mapper.OperationToEntityMapper;
+import tp35.mycashserver.model.Account;
 import tp35.mycashserver.model.Operation;
 import tp35.mycashserver.repository.OperationRepository;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
