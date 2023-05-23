@@ -20,6 +20,7 @@ public class BaseCategoryEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
+    @Enumerated(EnumType.STRING)
     private CategoryType type;
     private Color color;
 
