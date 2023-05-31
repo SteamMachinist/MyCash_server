@@ -7,8 +7,8 @@ import java.time.LocalDateTime;
 
 @Data
 public class NewOperationRequest {
-    Double value;
-    String accountName;
+    private final Double value;
+    private final String accountName;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    LocalDateTime dateTime;
+    private final LocalDateTime dateTime;
 }
