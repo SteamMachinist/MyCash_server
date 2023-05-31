@@ -25,8 +25,8 @@ public class OperationEntity {
     @JoinColumn(name = "category_id")
     private CategoryEntity category;
     private Double value;
-    //@Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime created;
+    private LocalDateTime dateTime;
+    private String comment;
 
     @Override
     public boolean equals(Object o) {

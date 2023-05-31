@@ -10,8 +10,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OperationDTO {
-    private AccountDTO account;
+    private Long id;
+    private String accountName;
     private CategoryDTO category;
     private Double value;
-    private LocalDateTime created;
+    private LocalDateTime dateTime;
+    private String commented;
 }
