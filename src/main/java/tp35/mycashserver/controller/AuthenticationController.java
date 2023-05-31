@@ -41,8 +41,8 @@ public class AuthenticationController {
     public TokenResponse newUserWithAccount(@RequestBody FirstAccountRequest firstAccountRequest) {
         User user = new User(null, UUID.randomUUID().toString(), "", Collections.singleton(Role.UNREGISTERED));
         userService.addUser(user);
-        Account account = new Account(null,
-                userService.getUserByUsername(user.getUsername()),
+        Account account = new Account(null, userService.getUserByUsername(
+                user.getUsername()),
                 firstAccountRequest.getAccountName(),
                 firstAccountRequest.getAccountBalance(),
                 null, false, null);
@@ -69,7 +69,7 @@ public class AuthenticationController {
         String oldUsername = SecurityContextHolder.getContext().getAuthentication().getName();
 
         User user = userService.getUserByUsername(oldUsername);
-        user.setUsername(registerRequest.getNewUsername());
+        user.setUsername(registerRequest.getUsername());
         user.setPassword(registerRequest.getPassword());
         user.setRoles(Collections.singleton(Role.REGISTERED));
         userService.addUser(user);
