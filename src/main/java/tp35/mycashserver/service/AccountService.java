@@ -9,7 +9,6 @@ import tp35.mycashserver.model.User;
 import tp35.mycashserver.repository.AccountRepository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -19,7 +18,7 @@ public class AccountService {
     private final UserMapper userMapper;
 
     public List<Account> getAllAccounts(User owner) {
-        return accountRepository.findAllByOwner(userMapper.toUserEntity(owner)).stream().map(accountMapper::toAccount).collect(Collectors.toList());
+        return accountMapper.toAccounts(accountRepository.findAllByOwner(userMapper.toUserEntity(owner)));
     }
 
     public Account getAccountById(Long id) {
@@ -33,5 +32,9 @@ public class AccountService {
 
     public void addAccount(Account account) {
         accountRepository.save(accountMapper.toAccountEntity(account));
+    }
+
+    public void deleteAccount(Account account) {
+        accountRepository.delete(accountMapper.toAccountEntity(account));
     }
 }
