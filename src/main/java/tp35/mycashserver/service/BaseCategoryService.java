@@ -12,7 +12,7 @@ public class BaseCategoryService {
     private final BaseCategoryRepository baseCategoryRepository;
     private final BaseCategoryMapper baseCategoryMapper;
 
-    public void add(BaseCategory baseCategory) {
+    public void addBaseCategory(BaseCategory baseCategory) {
         baseCategoryRepository.save(baseCategoryMapper.toBaseCategoryEntity(baseCategory));
     }
 }

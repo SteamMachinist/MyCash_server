@@ -15,15 +15,15 @@ public class UserService {
 
     private final PasswordEncoder encoder;
 
-    public User getById(Long id) {
+    public User getUserById(Long id) {
         return userRepository.findById(id).map(userMapper::toUser).orElse(new User(null, null, null, null));
     }
 
-    public User getByUsername(String username) {
+    public User getUserByUsername(String username) {
         return userMapper.toUser(userRepository.findByUsername(username));
     }
 
-    public void add(User user) {
+    public void addUser(User user) {
         user.setPassword(encoder.encode(user.getPassword()));
         userRepository.save(userMapper.toUserEntity(user));
     }

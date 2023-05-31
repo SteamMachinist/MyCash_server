@@ -12,7 +12,11 @@ public class OperationService {
     private final OperationRepository operationRepository;
     private final OperationMapper operationMapper;
 
-    public void add(Operation operation) {
+    public void addOperation(Operation operation) {
         operationRepository.save(operationMapper.toOperationEntity(operation));
+    }
+
+    public void updateOperation(Operation operation) {
+
     }
 }

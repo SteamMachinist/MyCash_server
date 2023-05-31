@@ -12,7 +12,7 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
 
-    public void add(Category category) {
+    public void addCategory(Category category) {
         categoryRepository.save(categoryMapper.toCategoryEntity(category));
     }
 }

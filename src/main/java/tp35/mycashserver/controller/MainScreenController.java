@@ -10,6 +10,7 @@ import tp35.mycashserver.dto.OperationDTO;
 import tp35.mycashserver.mapper.OperationMapper;
 import tp35.mycashserver.model.Account;
 import tp35.mycashserver.model.User;
+import tp35.mycashserver.service.AccountOperationsGetterService;
 import tp35.mycashserver.service.AccountService;
 import tp35.mycashserver.service.UserService;
 
@@ -21,29 +22,30 @@ import java.util.List;
 public class MainScreenController {
     private final UserService userService;
     private final AccountService accountService;
+    private final AccountOperationsGetterService accountOperationsGetterService;
     private final OperationMapper operationMapper;
 
     @GetMapping("/get/{accountName}")
     public List<OperationDTO> getOperationsFor(@PathVariable String accountName) {
-        User user = userService.getByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        User user = userService.getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         Account account = accountService.getAccountByOwnerAndName(user, accountName);
-        return operationMapper.toOperationDTOs(accountService.getOperationsOfAccount(account));
+        return operationMapper.toOperationDTOs(accountOperationsGetterService.getOperationsByAccount(account));
     }
 
     @GetMapping("/get/{accountName}/{year}/{month}")
     public List<OperationDTO> getOperationsFor(@PathVariable String accountName, @PathVariable int year, @PathVariable int month) {
-        User user = userService.getByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        User user = userService.getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         Account account = accountService.getAccountByOwnerAndName(user, accountName);
-        return operationMapper.toOperationDTOs(accountService.getOperationsOfAccountAndDate(account, year, month));
+        return operationMapper.toOperationDTOs(accountOperationsGetterService.getOperationsByAccountAndDate(account, year, month));
     }
 
     @GetMapping("/get/{accountName}/{year}/{month}/{day}")
     public List<OperationDTO> getOperationsFor(@PathVariable String accountName, @PathVariable int year, @PathVariable int month, @PathVariable int day) {
-        User user = userService.getByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        User user = userService.getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         System.out.println(user.getUsername());
         Account account = accountService.getAccountByOwnerAndName(user, accountName);
         System.out.println(account.getName());
-        List<OperationDTO> operationDTOS = operationMapper.toOperationDTOs(accountService.getOperationsOfAccountAndDate(account, year, month, day));
+        List<OperationDTO> operationDTOS = operationMapper.toOperationDTOs(accountOperationsGetterService.getOperationsByAccountAndDate(account, year, month, day));
         operationDTOS.forEach(System.out::println);
         return operationDTOS;
     }
