@@ -26,7 +26,7 @@ public class CategoryEntity {
     private UserEntity user;
     private Boolean isLimited;
     private Double spendingLimit;
-    private Color color;
+    private Integer color;
 
     @Override
     public boolean equals(Object o) {

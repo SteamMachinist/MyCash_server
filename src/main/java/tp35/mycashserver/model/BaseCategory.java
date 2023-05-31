@@ -13,5 +13,5 @@ public class BaseCategory {
     private Long id;
     private String name;
     private CategoryType type;
-    private Color color;
+    private Integer color;
 }
