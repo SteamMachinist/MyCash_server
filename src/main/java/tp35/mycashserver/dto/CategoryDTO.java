@@ -5,8 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import tp35.mycashserver.model.CategoryType;
 
-import java.awt.*;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
