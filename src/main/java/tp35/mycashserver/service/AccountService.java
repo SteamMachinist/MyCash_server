@@ -2,9 +2,9 @@ package tp35.mycashserver.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import tp35.mycashserver.mapper.AccountToEntityMapper;
-import tp35.mycashserver.mapper.OperationToEntityMapper;
-import tp35.mycashserver.mapper.UserToEntityMapper;
+import tp35.mycashserver.mapper.AccountMapper;
+import tp35.mycashserver.mapper.OperationMapper;
+import tp35.mycashserver.mapper.UserMapper;
 import tp35.mycashserver.model.Account;
 import tp35.mycashserver.model.Operation;
 import tp35.mycashserver.model.User;
@@ -22,22 +22,22 @@ import java.util.List;
 public class AccountService {
     private final AccountRepository accountRepository;
     private final OperationRepository operationRepository;
-    private final AccountToEntityMapper accountToEntityMapper;
-    private final UserToEntityMapper userToEntityMapper;
-    private final OperationToEntityMapper operationToEntityMapper;
+    private final AccountMapper accountMapper;
+    private final UserMapper userMapper;
+    private final OperationMapper operationMapper;
 
     public void add(Account account) {
-        accountRepository.save(accountToEntityMapper.toAccountEntity(account));
+        accountRepository.save(accountMapper.toAccountEntity(account));
     }
 
     public Account getAccountByOwnerAndName(User owner, String name) {
-        return accountToEntityMapper.toAccount(
-                accountRepository.findByOwnerAndName(userToEntityMapper.toUserEntity(owner), name));
+        return accountMapper.toAccount(
+                accountRepository.findByOwnerAndName(userMapper.toUserEntity(owner), name));
     }
 
     public List<Operation> getOperationsOfAccount(Account account) {
-        return operationToEntityMapper.toOperationList(
-                operationRepository.findAllByAccount(accountToEntityMapper.toAccountEntity(account)));
+        return operationMapper.toOperations(
+                operationRepository.findAllByAccount(accountMapper.toAccountEntity(account)));
     }
 
     public List<Operation> getOperationsOfAccountAndDate(Account account, int year, int month) {
@@ -75,8 +75,8 @@ public class AccountService {
     }
 
     private List<Operation> getOperationsOfAccountBetween(Account account, LocalDateTime from, LocalDateTime to) {
-        return operationToEntityMapper.toOperationList(
+        return operationMapper.toOperations(
                 operationRepository.findAllByAccountAndCreatedBetween(
-                        accountToEntityMapper.toAccountEntity(account), from, to));
+                        accountMapper.toAccountEntity(account), from, to));
     }
 }
