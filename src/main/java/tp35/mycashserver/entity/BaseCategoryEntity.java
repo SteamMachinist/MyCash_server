@@ -22,7 +22,7 @@ public class BaseCategoryEntity {
     private String name;
     @Enumerated(EnumType.STRING)
     private CategoryType type;
-    private Color color;
+    private Integer color;
 
     @Override
     public boolean equals(Object o) {
