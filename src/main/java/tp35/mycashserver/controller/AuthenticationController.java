@@ -40,13 +40,13 @@ public class AuthenticationController {
     @PostMapping("/new")
     public TokenResponse newUserWithAccount(@RequestBody FirstAccountRequest firstAccountRequest) {
         User user = new User(null, UUID.randomUUID().toString(), "", Collections.singleton(Role.UNREGISTERED));
-        userService.add(user);
+        userService.addUser(user);
         Account account = new Account(null,
-                userService.getByUsername(user.getUsername()),
+                userService.getUserByUsername(user.getUsername()),
                 firstAccountRequest.getAccountName(),
                 firstAccountRequest.getAccountBalance(),
                 null, false, null);
-        accountService.add(account);
+        accountService.addAccount(account);
         final UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(user.getUsername());
         return new TokenResponse(jwtTokenService.generateToken(userDetails));
     }
@@ -68,11 +68,11 @@ public class AuthenticationController {
     public TokenResponse register(@RequestBody RegisterRequest registerRequest) {
         String oldUsername = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        User user = userService.getByUsername(oldUsername);
+        User user = userService.getUserByUsername(oldUsername);
         user.setUsername(registerRequest.getNewUsername());
         user.setPassword(registerRequest.getPassword());
         user.setRoles(Collections.singleton(Role.REGISTERED));
-        userService.add(user);
+        userService.addUser(user);
 
         final UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(user.getUsername());
         return new TokenResponse(jwtTokenService.generateToken(userDetails));
