@@ -62,7 +62,7 @@ public class AccountOperationsGetterService {
 
     private List<Operation> getOperationsByAccountBetween(Account account, LocalDateTime from, LocalDateTime to) {
         return operationMapper.toOperations(
-                operationRepository.findAllByAccountAndCreatedBetween(
+                operationRepository.findAllByAccountAndDateTimeBetween(
                         accountMapper.toAccountEntity(account), from, to));
     }
 }

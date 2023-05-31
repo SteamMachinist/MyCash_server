@@ -11,16 +11,5 @@ import java.util.List;
 public interface OperationRepository extends JpaRepository<OperationEntity, Long> {
     List<OperationEntity> findAllByAccount(AccountEntity account);
 
-//    default List<OperationEntity> findAllByAccountAndYearMonth(AccountEntity account, LocalDateTime from, LocalDateTime to) {
-//        return findAllByAccountAndCreatedBetween(account, from, to);
-//    }
-//
-//    default List<OperationEntity> findAllByAccountAndYearMonthDate(AccountEntity account, LocalDateTime from, LocalDateTime to) {
-//        return
-//    }
-
-    List<OperationEntity> findAllByAccountAndCreatedBetween(AccountEntity account, LocalDateTime from, LocalDateTime to);
-
-    //    @Query("SELECT ALL from operation ")
-//    List<OperationEntity> findAllByAccountAndMonth();
+    List<OperationEntity> findAllByAccountAndDateTimeBetween(AccountEntity account, LocalDateTime from, LocalDateTime to);
 }
