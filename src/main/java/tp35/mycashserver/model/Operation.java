@@ -14,5 +14,6 @@ public class Operation {
     private Account account;
     private Category category;
     private Double value;
-    private LocalDateTime created;
+    private LocalDateTime dateTime;
+    private String comment;
 }
