@@ -15,5 +15,5 @@ public class OperationDTO {
     private CategoryDTO category;
     private Double value;
     private LocalDateTime dateTime;
-    private String commented;
+    private String comment;
 }
