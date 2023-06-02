@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
-import tp35.mycashserver.model.Account;
 import tp35.mycashserver.model.Role;
 import tp35.mycashserver.model.User;
 import tp35.mycashserver.request.AuthenticationRequest;
@@ -21,11 +20,10 @@ import tp35.mycashserver.request.RegisterRequest;
 import tp35.mycashserver.response.TokenResponse;
 import tp35.mycashserver.service.AccountService;
 import tp35.mycashserver.service.JwtTokenService;
-import tp35.mycashserver.service.JwtUserDetailsService;
+import tp35.mycashserver.service.AuthenticationService;
 import tp35.mycashserver.service.UserService;
 
 import java.util.Collections;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -34,20 +32,13 @@ public class AuthenticationController {
     private final UserService userService;
     private final AccountService accountService;
     private final JwtTokenService jwtTokenService;
-    private final JwtUserDetailsService jwtUserDetailsService;
+    private final AuthenticationService authenticationService;
     private final AuthenticationManager authenticationManager;
 
     @PostMapping("/new")
     public TokenResponse newUserWithAccount(@RequestBody FirstAccountRequest firstAccountRequest) {
-        User user = new User(null, UUID.randomUUID().toString(), "", Collections.singleton(Role.UNREGISTERED));
-        userService.addUser(user);
-        Account account = new Account(null, userService.getUserByUsername(
-                user.getUsername()),
-                firstAccountRequest.getAccountName(),
-                firstAccountRequest.getAccountBalance(),
-                null, false, null);
-        accountService.addAccount(account);
-        final UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(user.getUsername());
+        User user = authenticationService.createNewUserFromRequest(firstAccountRequest);
+        final UserDetails userDetails = authenticationService.loadUserByUsername(user.getUsername());
         return new TokenResponse(jwtTokenService.generateToken(userDetails));
     }
 
@@ -60,7 +51,7 @@ public class AuthenticationController {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
 
-        final UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(authenticationRequest.getUsername());
+        final UserDetails userDetails = authenticationService.loadUserByUsername(authenticationRequest.getUsername());
         return new TokenResponse(jwtTokenService.generateToken(userDetails));
     }
 
@@ -74,7 +65,7 @@ public class AuthenticationController {
         user.setRoles(Collections.singleton(Role.REGISTERED));
         userService.addUser(user);
 
-        final UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(user.getUsername());
+        final UserDetails userDetails = authenticationService.loadUserByUsername(user.getUsername());
         return new TokenResponse(jwtTokenService.generateToken(userDetails));
     }
 }
