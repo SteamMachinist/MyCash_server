@@ -5,7 +5,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import tp35.mycashserver.dto.AccountDTO;
 import tp35.mycashserver.mapper.AccountMapper;
-import tp35.mycashserver.model.Account;
 import tp35.mycashserver.model.User;
 import tp35.mycashserver.service.AccountService;
 import tp35.mycashserver.service.UserService;
@@ -36,18 +35,14 @@ public class AccountController {
     @PostMapping("/add")
     public void addUserAccount(@RequestBody AccountDTO accountDTO) {
         User user = userService.getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-        Account account = accountMapper.toAccount(accountDTO);
-        account.setOwner(user);
-        accountService.addAccount(account);
+        accountService.addAccountForUser(accountMapper.toAccount(accountDTO), user);
     }
-
 
     @PostMapping("/update")
     public void updateUserAccount(@RequestBody AccountDTO accountDTO) {
         User user = userService.getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-        Account oldAccount = accountService.getAccountByOwnerAndName(user, accountDTO.getName());
+        accountService.updateAccount(accountService.getAccountByOwnerAndName(user, accountDTO.getName()), accountDTO);
     }
-
 
     @DeleteMapping("/delete/{accountName}")
     public void deleteUserAccount(@PathVariable String accountName) {
