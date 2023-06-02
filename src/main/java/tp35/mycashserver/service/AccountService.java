@@ -41,12 +41,17 @@ public class AccountService {
         accountRepository.save(accountMapper.toAccountEntity(account));
     }
 
-    public void updateAccount(Account oldAccount, AccountDTO accountDTO) {
-        oldAccount.setName(accountDTO.getName());
-        oldAccount.setTarget(accountDTO.getTarget());
-        oldAccount.setIsLimited(accountDTO.getIsLimited());
-        oldAccount.setSpendingLimit(accountDTO.getSpendingLimit());
-        this.addAccount(oldAccount);
+    public void updateAccount(User user, AccountDTO accountDTO) {
+        Account account = getAccountByOwnerAndName(user, accountDTO.getName());
+        account.setName(accountDTO.getName());
+        account.setTarget(accountDTO.getTarget());
+        account.setIsLimited(accountDTO.getIsLimited());
+        account.setSpendingLimit(accountDTO.getSpendingLimit());
+        this.addAccount(account);
+    }
+
+    public void deleteAccount(User user, String accountName) {
+        accountRepository.delete(accountMapper.toAccountEntity(getAccountByOwnerAndName(user, accountName)));
     }
 
     public void deleteAccount(Account account) {
