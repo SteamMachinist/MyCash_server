@@ -1,4 +1,4 @@
-package tp35.mycashserver.security;
+package tp35.mycashserver.configuration;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -13,22 +13,22 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import tp35.mycashserver.model.JwtUserDetails;
 import tp35.mycashserver.service.JwtTokenService;
-import tp35.mycashserver.service.JwtUserDetailsService;
+import tp35.mycashserver.service.AuthenticationService;
 
 import java.io.IOException;
-import java.util.Iterator;
 
 @Component
 @RequiredArgsConstructor
 public class JwtRequestFilter extends OncePerRequestFilter {
     private final JwtTokenService jwtTokenService;
-    private final JwtUserDetailsService jwtUserDetailsService;
+    private final AuthenticationService authenticationService;
 
     @Override
     protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response,
                                     final FilterChain chain) throws ServletException, IOException {
-        // look for Bearer auth header
+
         final String header = request.getHeader(HttpHeaders.AUTHORIZATION);
+        System.out.println("Token: " + header);
         if (header == null || !header.startsWith("Bearer ")) {
             chain.doFilter(request, response);
             return;
@@ -37,19 +37,16 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         final String token = header.substring(7);
         final String username = jwtTokenService.validateTokenAndGetUsername(token);
         if (username == null) {
-            // validation failed or token expired
             chain.doFilter(request, response);
             return;
         }
 
-        // set user details on spring security context
-        final JwtUserDetails userDetails = (JwtUserDetails) jwtUserDetailsService.loadUserByUsername(username);
+        final JwtUserDetails userDetails = (JwtUserDetails) authenticationService.loadUserByUsername(username);
         final UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                 userDetails, null, userDetails.getAuthorities());
         authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+        System.out.println(authentication.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        // continue with authenticated user
         chain.doFilter(request, response);
     }
 
