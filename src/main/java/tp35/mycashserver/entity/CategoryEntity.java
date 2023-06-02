@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
 
-import java.awt.*;
 import java.util.Objects;
 
 @Entity

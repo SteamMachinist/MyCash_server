@@ -5,7 +5,6 @@ import lombok.*;
 import org.hibernate.Hibernate;
 import tp35.mycashserver.model.CategoryType;
 
-import java.awt.*;
 import java.util.Objects;
 
 @Entity
