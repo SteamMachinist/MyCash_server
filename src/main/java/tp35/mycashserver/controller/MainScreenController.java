@@ -42,11 +42,8 @@ public class MainScreenController {
     @GetMapping("/get/{accountName}/{year}/{month}/{day}")
     public List<OperationDTO> getOperationsFor(@PathVariable String accountName, @PathVariable int year, @PathVariable int month, @PathVariable int day) {
         User user = userService.getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-        System.out.println(user.getUsername());
         Account account = accountService.getAccountByOwnerAndName(user, accountName);
-        System.out.println(account.getName());
         List<OperationDTO> operationDTOS = operationMapper.toOperationDTOs(accountOperationsGetterService.getOperationsByAccountAndDate(account, year, month, day));
-        operationDTOS.forEach(System.out::println);
         return operationDTOS;
     }
 }
