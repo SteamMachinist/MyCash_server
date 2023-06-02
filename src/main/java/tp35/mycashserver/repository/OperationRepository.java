@@ -1,7 +1,6 @@
 package tp35.mycashserver.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import tp35.mycashserver.entity.AccountEntity;
 import tp35.mycashserver.entity.OperationEntity;
 
