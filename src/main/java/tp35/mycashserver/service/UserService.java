@@ -1,7 +1,7 @@
 package tp35.mycashserver.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import tp35.mycashserver.mapper.UserMapper;
@@ -17,7 +17,7 @@ public class UserService {
     private final PasswordEncoder encoder;
 
     public User getUserById(Long id) {
-        return userRepository.findById(id).map(userMapper::toUser).orElse(new User(null, null, null, null));
+        return userRepository.findById(id).map(userMapper::toUser).orElseThrow(EntityNotFoundException::new);
     }
 
     public User getUserByUsername(String username) {
