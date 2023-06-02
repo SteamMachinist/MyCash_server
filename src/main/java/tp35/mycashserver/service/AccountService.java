@@ -1,7 +1,9 @@
 package tp35.mycashserver.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import tp35.mycashserver.dto.AccountDTO;
 import tp35.mycashserver.mapper.AccountMapper;
 import tp35.mycashserver.mapper.UserMapper;
 import tp35.mycashserver.model.Account;
@@ -22,7 +24,7 @@ public class AccountService {
     }
 
     public Account getAccountById(Long id) {
-        return new Account();
+        return accountMapper.toAccount(accountRepository.findById(id).orElseThrow(EntityNotFoundException::new));
     }
 
     public Account getAccountByOwnerAndName(User owner, String name) {
@@ -30,8 +32,21 @@ public class AccountService {
                 accountRepository.findByOwnerAndName(userMapper.toUserEntity(owner), name));
     }
 
+    public void addAccountForUser(Account account, User user) {
+        account.setOwner(user);
+        this.addAccount(account);
+    }
+
     public void addAccount(Account account) {
         accountRepository.save(accountMapper.toAccountEntity(account));
+    }
+
+    public void updateAccount(Account oldAccount, AccountDTO accountDTO) {
+        oldAccount.setName(accountDTO.getName());
+        oldAccount.setTarget(accountDTO.getTarget());
+        oldAccount.setIsLimited(accountDTO.getIsLimited());
+        oldAccount.setSpendingLimit(accountDTO.getSpendingLimit());
+        this.addAccount(oldAccount);
     }
 
     public void deleteAccount(Account account) {
