@@ -6,6 +6,8 @@ import tp35.mycashserver.mapper.BaseCategoryMapper;
 import tp35.mycashserver.model.BaseCategory;
 import tp35.mycashserver.repository.BaseCategoryRepository;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class BaseCategoryService {
@@ -15,4 +17,9 @@ public class BaseCategoryService {
     public void addBaseCategory(BaseCategory baseCategory) {
         baseCategoryRepository.save(baseCategoryMapper.toBaseCategoryEntity(baseCategory));
     }
+
+    public List<BaseCategory> getAllBaseCategories() {
+        return baseCategoryMapper.toBaseCategories(baseCategoryRepository.findAll());
+    }
+
 }
