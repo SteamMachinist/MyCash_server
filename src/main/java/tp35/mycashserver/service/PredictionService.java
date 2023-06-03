@@ -2,6 +2,7 @@ package tp35.mycashserver.service;
 
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.math3.analysis.UnivariateFunction;
+import org.apache.commons.math3.analysis.interpolation.AkimaSplineInterpolator;
 import org.apache.commons.math3.analysis.interpolation.SplineInterpolator;
 import org.apache.commons.math3.analysis.interpolation.UnivariateInterpolator;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,7 +22,6 @@ import java.util.stream.IntStream;
 @Service
 @RequiredArgsConstructor
 public class PredictionService {
-    private final OperationsGetterService operationsGetterService;
     private final OperationSumGetterService operationSumGetterService;
     private final CategoryService categoryService;
     private final CategoryMapper categoryMapper;
