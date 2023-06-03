@@ -7,6 +7,7 @@ import tp35.mycashserver.mapper.CategoryMapper;
 import tp35.mycashserver.mapper.UserMapper;
 import tp35.mycashserver.model.BaseCategory;
 import tp35.mycashserver.model.Category;
+import tp35.mycashserver.model.CategoryType;
 import tp35.mycashserver.model.User;
 import tp35.mycashserver.repository.CategoryRepository;
 
@@ -22,6 +23,10 @@ public class CategoryService {
 
     public List<Category> getAllUserCategories(User user) {
         return categoryMapper.toCategories(categoryRepository.findAllByUser(userMapper.toUserEntity(user)));
+    }
+
+    public List<Category> getUserCategoriesByType(User user, CategoryType categoryType) {
+        return categoryMapper.toCategories(categoryRepository.findAllByUserAndBaseCategory_Type(userMapper.toUserEntity(user), categoryType));
     }
 
     public Category getCategoryByUserAndName(User user, String name) {
