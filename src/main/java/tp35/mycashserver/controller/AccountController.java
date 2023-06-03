@@ -18,7 +18,7 @@ public class AccountController {
     private final AccountService accountService;
     private final AccountMapper accountMapper;
 
-    @GetMapping("/get")
+    @GetMapping("/get_all")
     public List<AccountDTO> getUserAccounts() {
         User user = authenticationService.getAuthenticatedUser();
         return accountMapper.toAccountDTOs(accountService.getAllAccounts(user));
