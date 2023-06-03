@@ -49,13 +49,14 @@ public class AuthenticationService {
     public User createNewUserFromRequest(FirstAccountRequest firstAccountRequest) {
         User user = new User(null, UUID.randomUUID().toString(), "", Collections.singleton(Role.UNREGISTERED));
         userService.addUser(user);
-        Account account = new Account(null, userService.getUserByUsername(
-                user.getUsername()),
+        Account account = new Account(
+                null,
+                userService.getUserByUsername(user.getUsername()),
                 firstAccountRequest.getAccountName(),
                 firstAccountRequest.getAccountBalance(),
                 null, false, null);
         accountService.addAccount(account);
-        categoryService.addUserCategoriesFormBaseCategories(user);
+        categoryService.addUserCategoriesFormBaseCategories(userService.getUserByUsername(user.getUsername()));
         return user;
     }
 
