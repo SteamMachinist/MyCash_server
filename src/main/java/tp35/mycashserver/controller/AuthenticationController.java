@@ -1,10 +1,12 @@
 package tp35.mycashserver.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 import tp35.mycashserver.model.User;
 import tp35.mycashserver.request.AuthenticationRequest;
 import tp35.mycashserver.request.FirstAccountRequest;
@@ -26,8 +28,13 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public TokenResponse login(@RequestBody AuthenticationRequest authenticationRequest) {
-        User user = authenticationService.loginUser(authenticationRequest);
-        return authenticationService.getUserToken(user);
+        try {
+            User user = authenticationService.loginUser(authenticationRequest);
+            return authenticationService.getUserToken(user);
+        }
+        catch (ResponseStatusException e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Wrong username of password");
+        }
     }
 
     @PostMapping("/register")
