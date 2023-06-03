@@ -4,5 +4,5 @@ import lombok.Data;
 
 @Data
 public class OperationAddResponse {
-    private final Boolean isOverLimit;
+    private final OverLimitType overLimitType;
 }
