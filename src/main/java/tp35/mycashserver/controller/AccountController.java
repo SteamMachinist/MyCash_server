@@ -1,6 +1,10 @@
 package tp35.mycashserver.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -42,12 +46,14 @@ public class AccountController {
         accountService.addAccountForUser(accountMapper.toAccount(accountDTO), user);
     }
 
+    @Operation(summary = "Update user account")
     @PostMapping("/update")
     public void updateUserAccount(@RequestBody AccountDTO accountDTO) {
         User user = authenticationService.getAuthenticatedUser();
         accountService.updateAccount(user, accountDTO);
     }
 
+    @Operation(summary = "Delete user account")
     @DeleteMapping("/delete/{accountName}")
     public void deleteUserAccount(@PathVariable String accountName) {
         User user = authenticationService.getAuthenticatedUser();
