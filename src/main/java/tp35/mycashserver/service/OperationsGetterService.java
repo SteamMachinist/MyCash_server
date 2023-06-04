@@ -1,7 +1,7 @@
 package tp35.mycashserver.service;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.math3.util.Pair;
+import tp35.mycashserver.utils.Pair;
 import org.springframework.stereotype.Service;
 import tp35.mycashserver.mapper.AccountMapper;
 import tp35.mycashserver.mapper.CategoryMapper;
@@ -27,6 +27,21 @@ public class OperationsGetterService {
     public List<Operation> getOperationsByAccount(Account account) {
         return operationMapper.toOperations(
                 operationRepository.findAllByAccount(accountMapper.toAccountEntity(account)));
+    }
+
+    public List<Operation> getOperationsByAccountByDate(Account account, int year) {
+        Pair<LocalDateTime, LocalDateTime> monthDates = DateUtils.getDatesBorderYear(year, year);
+        return getOperationsByAccountBetween(account, monthDates.getFirst(), monthDates.getSecond());
+    }
+
+    public List<Operation> getOperationsByAccountByCategoryByDate(Account account, Category category, int year) {
+        Pair<LocalDateTime, LocalDateTime> monthDates = DateUtils.getDatesBorderYear(year, year);
+        return getOperationsByAccountByCategoryBetween(account, category, monthDates.getFirst(), monthDates.getSecond());
+    }
+
+    public List<Operation> getOperationsByAccountByCategoryTypeByDate(Account account, CategoryType categoryType, int year) {
+        Pair<LocalDateTime, LocalDateTime> monthDates = DateUtils.getDatesBorderYear(year, year);
+        return getOperationsByAccountByCategoryTypeBetween(account, categoryType, monthDates.getFirst(), monthDates.getSecond());
     }
 
     public List<Operation> getOperationsByAccountByDate(Account account, int year, int month) {
