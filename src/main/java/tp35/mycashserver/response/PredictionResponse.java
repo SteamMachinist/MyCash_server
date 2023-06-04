@@ -1,8 +1,6 @@
 package tp35.mycashserver.response;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import tp35.mycashserver.dto.CategoryDTO;
 
 @Data
