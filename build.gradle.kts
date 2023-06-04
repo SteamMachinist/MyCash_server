@@ -40,10 +40,6 @@ dependencies {
 	implementation("org.apache.commons:commons-math3:3.6.1")
 
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.3")
-
-//	compileOnly("io.springfox:springfox-swagger3:3.0.0")
-//	compileOnly("io.springfox:springfox-boot-starter:3.0.0")
-//	compileOnly("io.springfox:springfox-swagger-ui:3.0.0")
 }
 
 tasks.withType<Test> {
