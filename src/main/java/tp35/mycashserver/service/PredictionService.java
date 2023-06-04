@@ -36,24 +36,8 @@ public class PredictionService {
         Collections.reverse(months);
 
 
-        List<Double> incomesPerMonths = months.stream()
-                .map(localDate ->
-                        operationSumGetterService.getSumOperationsByAccountByCategoryTypeByDate(
-                                account,
-                                CategoryType.INCOME,
-                                localDate.getYear(),
-                                localDate.getMonthValue()))
-                .toList();
-
-
-        List<Double> expensesPerMonths = months.stream()
-                .map(localDate ->
-                        operationSumGetterService.getSumOperationsByAccountByCategoryTypeByDate(
-                                account,
-                                CategoryType.EXPENSE,
-                                localDate.getYear(),
-                                localDate.getMonthValue()))
-                .toList();
+        List<Double> incomesPerMonths = operationSumGetterService.getSumByTypeByMonthList(months, account, CategoryType.INCOME);
+        List<Double> expensesPerMonths = operationSumGetterService.getSumByTypeByMonthList(months, account, CategoryType.EXPENSE);
 
 
         Map<Category, List<Double>> categoryExpensesPerMonths = expensesCategories.stream()
