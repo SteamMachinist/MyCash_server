@@ -1,5 +1,7 @@
 package tp35.mycashserver.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Tag(name = "Main screen", description = "Get operations list for main screen")
 @RestController
 @RequestMapping("/api/main")
 @RequiredArgsConstructor
@@ -26,6 +29,7 @@ public class MainScreenController {
     private final OperationsGetterService operationsGetterService;
     private final OperationMapper operationMapper;
 
+    @Operation(summary = "Get map of account operations by month")
     @GetMapping("/get/{year}/{month}")
     public Map<String, List<OperationDTO>> getAccountsOperationsMapFor(@PathVariable int year, @PathVariable int month) {
         User user = authenticationService.getAuthenticatedUser();
@@ -36,6 +40,7 @@ public class MainScreenController {
                         operationsGetterService.getOperationsByAccountByDate(account, year, month))));
     }
 
+    @Operation(summary = "Get map of account operations by month and day")
     @GetMapping("/get/{year}/{month}/{day}")
     public Map<String, List<OperationDTO>> getAccountsOperationsMapFor(@PathVariable int year, @PathVariable int month, @PathVariable int day) {
         User user = authenticationService.getAuthenticatedUser();

@@ -1,5 +1,7 @@
 package tp35.mycashserver.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,18 +16,21 @@ import tp35.mycashserver.request.RegisterRequest;
 import tp35.mycashserver.response.TokenResponse;
 import tp35.mycashserver.service.AuthenticationService;
 
+@Tag(name = "Authentication")
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
+    @Operation(summary = "Create new user with account")
     @PostMapping("/new")
     public TokenResponse newUserWithAccount(@RequestBody FirstAccountRequest firstAccountRequest) {
         User user = authenticationService.createNewUserFromRequest(firstAccountRequest);
         return authenticationService.getUserToken(user);
     }
 
+    @Operation(summary = "Login to existing registered user")
     @PostMapping("/login")
     public TokenResponse login(@RequestBody AuthenticationRequest authenticationRequest) {
         try {
@@ -37,6 +42,7 @@ public class AuthenticationController {
         }
     }
 
+    @Operation(summary = "Register unregistered user")
     @PostMapping("/register")
     public TokenResponse register(@RequestBody RegisterRequest registerRequest) {
         User user = authenticationService.registerUser(registerRequest);
