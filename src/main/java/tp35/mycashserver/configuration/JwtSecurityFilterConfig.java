@@ -27,6 +27,7 @@ public class JwtSecurityFilterConfig {
 
                 .authorizeHttpRequests((authorizeHttpRequests) ->
                         authorizeHttpRequests
+                                .requestMatchers("/swagger-ui/**", "/v3/**").permitAll()
                                 .requestMatchers("/api/auth/new", "/api/auth/login").permitAll()
                                 .requestMatchers("/api/auth/register").hasAuthority(Role.UNREGISTERED.getAuthority())
                                 .anyRequest().hasAnyAuthority(Role.UNREGISTERED.getAuthority(), Role.REGISTERED.getAuthority())
