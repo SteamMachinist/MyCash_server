@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import tp35.mycashserver.dto.OperationDTO;
 import tp35.mycashserver.mapper.OperationMapper;
+import tp35.mycashserver.model.Operation;
 import tp35.mycashserver.model.User;
 import tp35.mycashserver.response.OperationAddResponse;
 import tp35.mycashserver.service.AuthenticationService;
@@ -28,7 +29,7 @@ public class OperationController {
     public OperationAddResponse addOperation(@RequestBody OperationDTO operationDTO) {
         User user = authenticationService.getAuthenticatedUser();
         operationService.addOperation(user, operationDTO);
-        return limitCheckService.checkLimit(operationService.getOperationById(operationDTO.getId()));
+        return limitCheckService.checkLimit(operationService.setUpOperationForUserFromDto(user, new Operation(), operationDTO));
     }
 
     @PostMapping("/update")
