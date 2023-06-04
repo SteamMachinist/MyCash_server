@@ -12,7 +12,6 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import tp35.mycashserver.model.JwtUserDetails;
-import tp35.mycashserver.service.AuthenticationService;
 import tp35.mycashserver.service.CustomUserDetailsService;
 import tp35.mycashserver.service.JwtTokenService;
 
