@@ -14,6 +14,6 @@ public class OperationDTO {
     private String accountName;
     private CategoryDTO category;
     private Double value;
-    private LocalDateTime dateTime;
+    private String dateTime;
     private String comment;
 }

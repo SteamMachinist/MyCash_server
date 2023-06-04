@@ -9,6 +9,8 @@ import tp35.mycashserver.model.Operation;
 import tp35.mycashserver.model.User;
 import tp35.mycashserver.repository.OperationRepository;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 public class OperationService {
@@ -17,11 +19,11 @@ public class OperationService {
     private final CategoryService categoryService;
     private final AccountService accountService;
 
-    private Operation setUpOperationForUserFromDto(User user, Operation operation, OperationDTO operationDTO) {
+    public Operation setUpOperationForUserFromDto(User user, Operation operation, OperationDTO operationDTO) {
         operation.setCategory(categoryService.getCategoryByUserAndName(user, operationDTO.getCategory().getName()));
         operation.setAccount(accountService.getAccountByOwnerAndName(user, operationDTO.getAccountName()));
         operation.setValue(operationDTO.getValue());
-        operation.setDateTime(operationDTO.getDateTime());
+        operation.setDateTime(LocalDateTime.parse(operationDTO.getDateTime()));
         operation.setComment(operationDTO.getComment());
         return operation;
     }
