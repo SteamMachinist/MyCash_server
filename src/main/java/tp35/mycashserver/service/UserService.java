@@ -5,8 +5,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import tp35.mycashserver.mapper.UserMapper;
+import tp35.mycashserver.model.Role;
 import tp35.mycashserver.model.User;
 import tp35.mycashserver.repository.UserRepository;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -15,6 +20,14 @@ public class UserService {
     private final UserMapper userMapper;
 
     private final PasswordEncoder encoder;
+
+    public Map<Role, Integer> getUsersNumber() {
+        Map<Role, Integer> usersNumber = new HashMap<>();
+        usersNumber.put(Role.UNREGISTERED, userRepository.countByRolesContaining(Role.UNREGISTERED));
+        usersNumber.put(Role.REGISTERED, userRepository.countByRolesContaining(Role.REGISTERED));
+        usersNumber.put(Role.ADMIN, userRepository.countByRolesContaining(Role.ADMIN));
+        return usersNumber;
+    }
 
     public User getUserById(Long id) {
         return userRepository.findById(id).map(userMapper::toUser).orElseThrow(EntityNotFoundException::new);

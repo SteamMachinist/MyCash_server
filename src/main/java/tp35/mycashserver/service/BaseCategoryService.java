@@ -18,6 +18,10 @@ public class BaseCategoryService {
         baseCategoryRepository.save(baseCategoryMapper.toBaseCategoryEntity(baseCategory));
     }
 
+    public void addBaseCategories(List<BaseCategory> baseCategories) {
+        baseCategoryRepository.saveAll(baseCategoryMapper.toBaseCategoryEntities(baseCategories));
+    }
+
     public List<BaseCategory> getAllBaseCategories() {
         return baseCategoryMapper.toBaseCategories(baseCategoryRepository.findAll());
     }

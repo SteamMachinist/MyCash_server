@@ -40,6 +40,10 @@ dependencies {
 	implementation("org.apache.commons:commons-math3:3.6.1")
 
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.3")
+
+	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+
+	implementation("com.opencsv:opencsv:3.7")
 }
 
 tasks.withType<Test> {

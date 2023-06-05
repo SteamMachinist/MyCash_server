@@ -22,6 +22,8 @@ public class UserEntity {
     @Column(unique=true)
     private String username;
     private String password;
+
+    @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 

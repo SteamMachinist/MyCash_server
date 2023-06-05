@@ -1,9 +1,7 @@
 package tp35.mycashserver.response;
 
 import lombok.Data;
-
 import tp35.mycashserver.dto.CategoryDTO;
-import tp35.mycashserver.model.Category;
 import tp35.mycashserver.utils.Pair;
 
 import java.util.List;
