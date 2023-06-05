@@ -31,7 +31,7 @@ public class PredictionController {
         try {
             return predictionService.getPredictionFor(user, account, year, month);
         } catch (Exception e) {
-            return new PredictionResponse(null, null, null, null);
+            throw new RuntimeException(e);
         }
     }
 }

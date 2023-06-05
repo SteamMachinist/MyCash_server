@@ -66,16 +66,16 @@ public class PredictionService {
 
         double[] numbers = IntStream.range(0, monthBeforeCalculated).mapToDouble(i -> i).toArray();
 
-        UnivariateInterpolator interpolator = new SplineInterpolator();
+        UnivariateInterpolator interpolator = new NevilleInterpolator();
 
         UnivariateFunction expensesFunction = interpolator.interpolate(numbers, expensesPerMonths.stream().mapToDouble(i -> i).toArray());
         UnivariateFunction incomeFunction = interpolator.interpolate(numbers, incomesPerMonths.stream().mapToDouble(i -> i).toArray());
         UnivariateFunction topCategoryFunction = interpolator.interpolate(numbers, maxCategory.getValue().stream().mapToDouble(i -> i).toArray());
 
         return new PredictionResponse(
-                expensesFunction.value(month),
-                incomeFunction.value(month),
+                expensesFunction.value(monthBeforeCalculated),
+                incomeFunction.value(monthBeforeCalculated),
                 categoryMapper.toCategoryDTO(maxCategory.getKey()),
-                topCategoryFunction.value(month));
+                topCategoryFunction.value(monthBeforeCalculated));
     }
 }

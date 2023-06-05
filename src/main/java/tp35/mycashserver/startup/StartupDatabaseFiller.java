@@ -4,6 +4,8 @@ import com.opencsv.CSVReader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
 import tp35.mycashserver.model.BaseCategory;
 import tp35.mycashserver.model.CategoryType;
@@ -12,7 +14,10 @@ import tp35.mycashserver.model.User;
 import tp35.mycashserver.service.BaseCategoryService;
 import tp35.mycashserver.service.UserService;
 
+import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -22,6 +27,7 @@ import java.util.List;
 public class StartupDatabaseFiller implements ApplicationListener<ContextRefreshedEvent> {
     private final BaseCategoryService baseCategoryService;
     private final UserService userService;
+    private final ResourceLoader resourceLoader;
 
     @Override public void onApplicationEvent(ContextRefreshedEvent event) {
         if (baseCategoryService.getAllBaseCategories().size() == 0) {
@@ -36,7 +42,8 @@ public class StartupDatabaseFiller implements ApplicationListener<ContextRefresh
 
     private List<BaseCategory> ReadBaseCategoriesFromFile() {
         List<BaseCategory> baseCategories = new ArrayList<>();
-        try (CSVReader reader = new CSVReader(new FileReader("src/main/resources/basecategories.csv"))) {
+        Resource resource = resourceLoader.getResource("classpath:basecategories.csv");
+        try (CSVReader reader = new CSVReader(new InputStreamReader(resource.getInputStream()))) {
             List<String[]> r = reader.readAll();
             r.forEach(x -> baseCategories.add(new BaseCategory(null, x[1], CategoryType.valueOf(x[2]), Integer.parseInt(x[0]))));
         } catch (Exception e) {
