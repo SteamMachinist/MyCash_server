@@ -23,15 +23,17 @@ public class JwtSecurityFilterConfig {
         return http
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
-                .httpBasic(AbstractHttpConfigurer::disable)
-
+                .httpBasic(Customizer.withDefaults())
                 .authorizeHttpRequests((authorizeHttpRequests) ->
                         authorizeHttpRequests
+                                .requestMatchers("/static/**").permitAll()
+                                .requestMatchers("/swagger-ui").permitAll()
                                 .requestMatchers("/swagger-ui/**", "/v3/**").permitAll()
                                 .requestMatchers("/api/auth/new", "/api/auth/login").permitAll()
-                                .requestMatchers("/api/auth/register").hasAuthority(Role.UNREGISTERED.getAuthority())
-                                .anyRequest().hasAnyAuthority(Role.UNREGISTERED.getAuthority(), Role.REGISTERED.getAuthority())
-                )
+                                .requestMatchers("/api/auth/register").hasAnyAuthority(Role.UNREGISTERED.getAuthority(), Role.ADMIN.getAuthority())
+                                .requestMatchers("/api/**").hasAnyAuthority(Role.UNREGISTERED.getAuthority(), Role.REGISTERED.getAuthority(), Role.ADMIN.getAuthority())
+                                .requestMatchers("/admin/**").hasAuthority(Role.ADMIN.getAuthority()))
+
 
                 .sessionManagement(configurer ->
                         configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>App Stats</title>
+</head>
+<link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<body>
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/admin}">MyCash-admin</a>
+        <button aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
+                data-bs-target="#navbarNavAltMarkup" data-bs-toggle="collapse" type="button">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a aria-current="page" class="nav-link active" th:href="@{/admin/users_stats}">Users</a>
+                <a class="nav-link" th:href="@{/admin/category_stats}">Category</a>
+            </div>
+        </div>
+    </div>
+</nav>
+<div style="margin-left: 50px">
+    <h1>User Statistics</h1>
+
+    <ul class="list-unstyled">
+        <li>Total users:
+            <th:block th:text="${totalUsers}"></th:block>
+            <ul>
+                <li>Unregistered users:
+                    <th:block th:text="${unregisteredUsers}"></th:block>
+                </li>
+                <li>Registered users:
+                    <th:block th:text="${registeredUsers}"></th:block>
+                </li>
+                <li>Admins:
+                    <th:block th:text="${adminUsers}"></th:block>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
+<script th:src="@{/static/js/bootstrap.min.js}"></script>
+</body>
+</html>

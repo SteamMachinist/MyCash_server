@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Category Stats</title>
+</head>
+<link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<body>
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/admin}">MyCash-admin</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-link" th:href="@{/admin/users_stats}">Users</a>
+                <a class="nav-link active" aria-current="page" th:href="@{/admin/category_stats}">Category</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<h1>Category Statistics</h1>
+<h3>Average operation values by category</h3>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Category</th>
+        <th th:each="month : ${months}">
+            <th:block th:text="${month}"></th:block>
+        </th>
+    </thead>
+    <tbody>
+    <tr th:each="instance : ${categoriesAverages}">
+        <td th:text="${instance.key}"></td>
+        <th:block th:each="val : ${instance.value}">
+            <td th:text="${val}"></td>
+        </th:block>
+    </tr>
+    </tbody>
+</table>
+
+<script th:src="@{/static/js/bootstrap.min.js}"></script>
+</body>
+</html>
