@@ -7,21 +7,30 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 import tp35.mycashserver.model.BaseCategory;
 import tp35.mycashserver.model.CategoryType;
+import tp35.mycashserver.model.Role;
+import tp35.mycashserver.model.User;
 import tp35.mycashserver.service.BaseCategoryService;
+import tp35.mycashserver.service.UserService;
 
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Component
 @RequiredArgsConstructor
 public class StartupDatabaseFiller implements ApplicationListener<ContextRefreshedEvent> {
     private final BaseCategoryService baseCategoryService;
+    private final UserService userService;
 
     @Override public void onApplicationEvent(ContextRefreshedEvent event) {
         if (baseCategoryService.getAllBaseCategories().size() == 0) {
             List<BaseCategory> baseCategories = ReadBaseCategoriesFromFile();
             baseCategoryService.addBaseCategories(baseCategories);
+        }
+        if (userService.getUserByUsername("admin") == null)
+        {
+            userService.addUser(new User(null, "admin", "admin", Collections.singleton(Role.ADMIN)));
         }
     }
 
