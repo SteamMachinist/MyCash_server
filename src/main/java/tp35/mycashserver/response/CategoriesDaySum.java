@@ -8,6 +8,6 @@ import java.util.List;
 
 @Data
 public class CategoriesDaySum {
-    private final CategoryDTO category;
-    private final List<Pair<Integer, Double>> data;
+    private final Integer day;
+    private final List<Pair<CategoryDTO, Double>> data;
 }

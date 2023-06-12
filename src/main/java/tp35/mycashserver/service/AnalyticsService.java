@@ -30,20 +30,22 @@ public class AnalyticsService {
                                                        List<Category> categories, Account account,
                                                        int year, int month) {
 
-        return categories.stream()
-                .map(category -> new CategoriesDaySum(
-                        categoryMapper.toCategoryDTO(category),
-                        IntStream.range(begin.getDayOfMonth(), end.getDayOfMonth() + 1)
-                                .mapToObj(day -> new Pair<>(
-                                        day,
-                                        operationSumGetterService.getSumOperationsByAccountByCategoryByDate(
-                                                account,
-                                                category,
-                                                year,
-                                                month,
-                                                day)))
-                                .toList()))
-                .collect(Collectors.toList());
+        return IntStream.range(begin.getDayOfMonth(), end.getDayOfMonth() + 1)
+                .mapToObj(day ->
+                        new CategoriesDaySum(
+                                day,
+                                categories.stream()
+                                        .map(category ->
+                                                new Pair<>(
+                                                        categoryMapper.toCategoryDTO(category),
+                                                        operationSumGetterService.getSumOperationsByAccountByCategoryByDate(
+                                                                account,
+                                                                category,
+                                                                year,
+                                                                month,
+                                                                day)))
+                                        .collect(Collectors.toList())))
+                .toList();
     }
 
     public AllMonthData getAllMonthData(Account account, int year, int month) {
