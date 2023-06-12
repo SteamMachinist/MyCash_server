@@ -43,10 +43,10 @@ public class AccountController {
     }
 
     @Operation(summary = "Update user account")
-    @PostMapping("/update")
-    public void updateUserAccount(@RequestBody AccountDTO accountDTO) {
+    @PostMapping("/update/{accountName}")
+    public void updateUserAccount(@RequestBody AccountDTO accountDTO, @PathVariable String accountName) {
         User user = authenticationService.getAuthenticatedUser();
-        accountService.updateAccount(user, accountDTO);
+        accountService.updateAccount(user, accountDTO, accountName);
     }
 
     @Operation(summary = "Delete user account")

@@ -41,8 +41,8 @@ public class AccountService {
         accountRepository.save(accountMapper.toAccountEntity(account));
     }
 
-    public void updateAccount(User user, AccountDTO accountDTO) {
-        Account account = getAccountByOwnerAndName(user, accountDTO.getName());
+    public void updateAccount(User user, AccountDTO accountDTO, String accountName) {
+        Account account = getAccountByOwnerAndName(user, accountName);
         account.setName(accountDTO.getName());
         account.setTarget(accountDTO.getTarget());
         account.setIsLimited(accountDTO.getIsLimited());
