@@ -6,7 +6,6 @@ import org.hibernate.Hibernate;
 import tp35.mycashserver.model.Role;
 
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name="app_user")
@@ -23,9 +22,8 @@ public class UserEntity {
     private String username;
     private String password;
 
-    @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
-    private Set<Role> roles;
+    private Role role;
 
     @Override
     public boolean equals(Object o) {

@@ -9,7 +9,6 @@ import tp35.mycashserver.model.Role;
 import tp35.mycashserver.model.User;
 import tp35.mycashserver.repository.UserRepository;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,9 +22,9 @@ public class UserService {
 
     public Map<Role, Integer> getUsersNumber() {
         Map<Role, Integer> usersNumber = new HashMap<>();
-        usersNumber.put(Role.UNREGISTERED, userRepository.countByRolesContaining(Role.UNREGISTERED));
-        usersNumber.put(Role.REGISTERED, userRepository.countByRolesContaining(Role.REGISTERED));
-        usersNumber.put(Role.ADMIN, userRepository.countByRolesContaining(Role.ADMIN));
+        usersNumber.put(Role.UNREGISTERED, userRepository.countByRole(Role.UNREGISTERED));
+        usersNumber.put(Role.REGISTERED, userRepository.countByRole(Role.REGISTERED));
+        usersNumber.put(Role.ADMIN, userRepository.countByRole(Role.ADMIN));
         return usersNumber;
     }
 

@@ -45,7 +45,7 @@ public class AuthenticationService {
     }
 
     public User createNewUserFromRequest(FirstAccountRequest firstAccountRequest) {
-        User user = new User(null, UUID.randomUUID().toString(), "", Collections.singleton(Role.UNREGISTERED));
+        User user = new User(null, UUID.randomUUID().toString(), "", Role.UNREGISTERED);
         userService.addUser(user);
         Account account = new Account(
                 null,
@@ -67,7 +67,7 @@ public class AuthenticationService {
         User user = getAuthenticatedUser();
         user.setUsername(registerRequest.getUsername());
         user.setPassword(registerRequest.getPassword());
-        user.setRoles(Collections.singleton(Role.REGISTERED));
+        user.setRole(Role.REGISTERED);
         userService.addUser(user);
         return user;
     }

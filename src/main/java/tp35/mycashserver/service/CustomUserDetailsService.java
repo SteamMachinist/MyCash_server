@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import tp35.mycashserver.model.JwtUserDetails;
 import tp35.mycashserver.model.User;
 
+import java.util.Collections;
+
 @Service
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
@@ -15,6 +17,6 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(final String username) {
         User user = userService.getUserByUsername(username);
-        return new JwtUserDetails(user.getId(), username, user.getPassword(), user.getRoles());
+        return new JwtUserDetails(user.getId(), username, user.getPassword(), Collections.singleton(user.getRole()));
     }
 }

@@ -14,9 +14,6 @@ import tp35.mycashserver.model.User;
 import tp35.mycashserver.service.BaseCategoryService;
 import tp35.mycashserver.service.UserService;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,7 +33,7 @@ public class StartupDatabaseFiller implements ApplicationListener<ContextRefresh
         }
         if (userService.getUserByUsername("admin") == null)
         {
-            userService.addUser(new User(null, "admin", "admin", Collections.singleton(Role.ADMIN)));
+            userService.addUser(new User(null, "admin", "admin", Role.ADMIN));
         }
     }
 
