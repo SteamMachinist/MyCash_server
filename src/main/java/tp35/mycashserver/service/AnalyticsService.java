@@ -46,13 +46,12 @@ public class AnalyticsService {
                 .collect(Collectors.toList());
     }
 
-    public AllMonthData getAllMonthData(Account account, int year) {
-        List<LocalDate> yearMonth = IntStream.range(1, 13)
-                .mapToObj(monthNumber
-                        -> LocalDate.now().withYear(year).withMonth(monthNumber))
-                .toList();
+    public AllMonthData getAllMonthData(Account account, int year, int month) {
+        List<LocalDate> months = new ArrayList<>(IntStream.range(0, 6)
+                .mapToObj(value -> LocalDate.now().withYear(year).withMonth(month).minusMonths(value)).toList());
+        Collections.reverse(months);
 
-        List<Double> incomes = yearMonth.stream()
+        List<Double> incomes = months.stream()
                 .map(localDate -> operationSumGetterService
                         .getSumOperationsByAccountByCategoryTypeByDate(
                                 account,
@@ -61,7 +60,7 @@ public class AnalyticsService {
                                 localDate.getMonthValue()))
                 .collect(Collectors.toList());
 
-        List<Double> expenses = yearMonth.stream()
+        List<Double> expenses = months.stream()
                 .map(localDate -> operationSumGetterService
                         .getSumOperationsByAccountByCategoryTypeByDate(
                                 account,
@@ -93,7 +92,7 @@ public class AnalyticsService {
         List<CategoriesDaySum> incomes = getDayCategoriesSums(begin, end, incomesCategories, account, year, month);
         List<CategoriesDaySum> expenses = getDayCategoriesSums(begin, end, expensesCategories, account, year, month);
 
-        AllMonthData allMonthData = getAllMonthData(account, year);
+        AllMonthData allMonthData = getAllMonthData(account, year, month);
 
         return new AnalyticsResponse(incomes, expenses, allMonthData);
     }
