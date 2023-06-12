@@ -1,8 +1,9 @@
 package tp35.mycashserver.service;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.apache.commons.math3.analysis.interpolation.*;
+import org.apache.commons.math3.analysis.interpolation.SplineInterpolator;
+import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
+import org.apache.commons.math3.analysis.polynomials.PolynomialSplineFunction;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import tp35.mycashserver.mapper.CategoryMapper;
@@ -35,10 +36,8 @@ public class PredictionService {
                 .mapToObj(value -> LocalDate.now().withYear(year).withMonth(month).minusMonths(value)).toList());
         Collections.reverse(months);
 
-
         List<Double> incomesPerMonths = operationSumGetterService.getSumByTypeByMonthList(months, account, CategoryType.INCOME);
         List<Double> expensesPerMonths = operationSumGetterService.getSumByTypeByMonthList(months, account, CategoryType.EXPENSE);
-
 
         Map<Category, List<Double>> categoryExpensesPerMonths = expensesCategories.stream()
                 .collect(
@@ -53,7 +52,6 @@ public class PredictionService {
                                                         localDate.getMonthValue()))
                                         .toList()));
 
-
         Map.Entry<Category, List<Double>> maxCategory = categoryExpensesPerMonths.entrySet()
                 .stream()
                 .max(Comparator.comparing(e -> {
@@ -66,16 +64,20 @@ public class PredictionService {
 
         double[] numbers = IntStream.range(0, monthBeforeCalculated).mapToDouble(i -> i).toArray();
 
-        UnivariateInterpolator interpolator = new NevilleInterpolator();
-
-        UnivariateFunction expensesFunction = interpolator.interpolate(numbers, expensesPerMonths.stream().mapToDouble(i -> i).toArray());
-        UnivariateFunction incomeFunction = interpolator.interpolate(numbers, incomesPerMonths.stream().mapToDouble(i -> i).toArray());
-        UnivariateFunction topCategoryFunction = interpolator.interpolate(numbers, maxCategory.getValue().stream().mapToDouble(i -> i).toArray());
+        PolynomialFunction expensesFunction = getExtrapolationFunctionFor(numbers, expensesPerMonths.stream().mapToDouble(i -> i).toArray());
+        PolynomialFunction incomeFunction = getExtrapolationFunctionFor(numbers, incomesPerMonths.stream().mapToDouble(i -> i).toArray());
+        PolynomialFunction topCategoryFunction = getExtrapolationFunctionFor(numbers, maxCategory.getValue().stream().mapToDouble(i -> i).toArray());
 
         return new PredictionResponse(
                 expensesFunction.value(monthBeforeCalculated),
                 incomeFunction.value(monthBeforeCalculated),
                 categoryMapper.toCategoryDTO(maxCategory.getKey()),
                 topCategoryFunction.value(monthBeforeCalculated));
+    }
+
+    private PolynomialFunction getExtrapolationFunctionFor(double[] xs, double[] ys) {
+        PolynomialSplineFunction function = new SplineInterpolator().interpolate(xs, ys);
+        PolynomialFunction[] splines = function.getPolynomials();
+        return splines[splines.length - 1];
     }
 }
