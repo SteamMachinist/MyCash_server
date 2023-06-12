@@ -11,8 +11,10 @@ import tp35.mycashserver.dto.OperationDTO;
 import tp35.mycashserver.mapper.OperationMapper;
 import tp35.mycashserver.model.Account;
 import tp35.mycashserver.model.User;
+import tp35.mycashserver.response.MainScreenAccountResponse;
 import tp35.mycashserver.service.AccountService;
 import tp35.mycashserver.service.AuthenticationService;
+import tp35.mycashserver.service.MainScreenService;
 import tp35.mycashserver.service.OperationsGetterService;
 
 import java.util.List;
@@ -25,29 +27,19 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class MainScreenController {
     private final AuthenticationService authenticationService;
-    private final AccountService accountService;
-    private final OperationsGetterService operationsGetterService;
-    private final OperationMapper operationMapper;
+    private final MainScreenService mainScreenService;
 
     @Operation(summary = "Get map of account operations by month")
     @GetMapping("/get/{year}/{month}")
-    public Map<String, List<OperationDTO>> getAccountsOperationsMapFor(@PathVariable int year, @PathVariable int month) {
+    public List<MainScreenAccountResponse> getAccountsOperationsMapFor(@PathVariable int year, @PathVariable int month) {
         User user = authenticationService.getAuthenticatedUser();
-        List<Account> accounts = accountService.getAllAccounts(user);
-        return accounts.stream().collect(Collectors.toMap(
-                account -> account.getName() + ":" + account.getBalance(),
-                account -> operationMapper.toOperationDTOs(
-                        operationsGetterService.getOperationsByAccountByDate(account, year, month))));
+        return mainScreenService.getDataForMainScreen(user, year, month);
     }
 
     @Operation(summary = "Get map of account operations by month and day")
     @GetMapping("/get/{year}/{month}/{day}")
-    public Map<String, List<OperationDTO>> getAccountsOperationsMapFor(@PathVariable int year, @PathVariable int month, @PathVariable int day) {
+    public List<MainScreenAccountResponse> getAccountsOperationsMapFor(@PathVariable int year, @PathVariable int month, @PathVariable int day) {
         User user = authenticationService.getAuthenticatedUser();
-        List<Account> accounts = accountService.getAllAccounts(user);
-        return accounts.stream().collect(Collectors.toMap(
-                account -> account.getName() + ":" + account.getBalance(),
-                account -> operationMapper.toOperationDTOs(
-                        operationsGetterService.getOperationsByAccountByDate(account, year, month, day))));
+        return mainScreenService.getDataForMainScreen(user, year, month, day);
     }
 }
