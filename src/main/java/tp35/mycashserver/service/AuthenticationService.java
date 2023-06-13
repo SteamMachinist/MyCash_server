@@ -37,10 +37,11 @@ public class AuthenticationService {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                     authenticationRequest.getUsername(), authenticationRequest.getPassword()));
+            return userService.getUserByUsername(authenticationRequest.getUsername());
         } catch (final BadCredentialsException ex) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
-        return getAuthenticatedUser();
+
     }
 
     public User createNewUserFromRequest(FirstAccountRequest firstAccountRequest) {
