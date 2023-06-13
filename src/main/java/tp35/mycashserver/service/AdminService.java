@@ -7,9 +7,7 @@ import tp35.mycashserver.model.Role;
 import tp35.mycashserver.utils.Pair;
 
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -17,8 +15,8 @@ import java.util.stream.IntStream;
 @RequiredArgsConstructor
 public class AdminService {
     private final UserService userService;
-    private final OperationAverageGetterService operationAverageGetterService;
     private final BaseCategoryService baseCategoryService;
+    private final OperationAverageGetterService operationAverageGetterService;
 
     public Map<String, Integer> getUsersStats() {
         Map<String, Integer> usersStats = new HashMap<>();
@@ -31,9 +29,9 @@ public class AdminService {
     }
 
     public Pair<List<String>, Map<String, List<Double>>> getCategoriesStats() {
-        List<LocalDate> months = IntStream.range(1, 13)
-                .mapToObj(num -> LocalDate.now().withMonth(num))
-                .toList();
+        List<LocalDate> months = new ArrayList<>(IntStream.range(0, 6)
+                .mapToObj(value -> LocalDate.now().minusMonths(value)).toList());
+        Collections.reverse(months);
 
         List<BaseCategory> baseCategories = baseCategoryService.getAllBaseCategories();
 
@@ -43,7 +41,7 @@ public class AdminService {
                                 BaseCategory::getName,
                                 baseCategory -> months.stream()
                                         .map(month -> operationAverageGetterService
-                                                .getAverageOperationsByBaseCategoryByDate(baseCategory, month.getYear(), month.getMonthValue()))
+                                                .getOperationsAverageBy(baseCategory, month.getYear(), month.getMonthValue()))
                                         .collect(Collectors.toList())
                         ));
 
