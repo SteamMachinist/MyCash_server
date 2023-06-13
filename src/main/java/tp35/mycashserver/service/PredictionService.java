@@ -45,7 +45,7 @@ public class PredictionService {
                                 category -> category,
                                 category -> months.stream()
                                         .map(localDate ->
-                                                operationSumGetterService.getSumOperationsByAccountByCategoryByDate(
+                                                operationSumGetterService.getOperationSumBy(
                                                         account,
                                                         category,
                                                         localDate.getYear(),
