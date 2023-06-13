@@ -4,10 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import tp35.mycashserver.model.User;
 import tp35.mycashserver.request.AuthenticationRequest;
@@ -53,5 +50,11 @@ public class AuthenticationController {
         catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Username is already in use");
         }
+    }
+
+    @Operation(summary = "Delete user")
+    @DeleteMapping("/delete")
+    public void delete() {
+        authenticationService.deleteUser();
     }
 }

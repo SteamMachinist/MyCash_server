@@ -70,4 +70,9 @@ public class AuthenticationService {
         userService.addUser(user);
         return user;
     }
+
+    public void deleteUser() {
+        User user = getAuthenticatedUser();
+        userService.deleteUser(user);
+    }
 }

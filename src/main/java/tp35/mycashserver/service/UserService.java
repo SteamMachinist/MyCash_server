@@ -40,4 +40,8 @@ public class UserService {
         user.setPassword(encoder.encode(user.getPassword()));
         userRepository.save(userMapper.toUserEntity(user));
     }
+
+    public void deleteUser(User user) {
+        userRepository.delete(userMapper.toUserEntity(user));
+    }
 }
