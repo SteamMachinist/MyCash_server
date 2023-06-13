@@ -81,6 +81,7 @@ public class AnalyticsService {
             balanceMonths.add(current);
         }
         Collections.reverse(balanceMonths);
+        balanceMonths.remove(0);
 
         return new AllMonthData(account.getSpendingLimit(), account.getTarget(), balanceMonths, incomes, expenses);
     }
