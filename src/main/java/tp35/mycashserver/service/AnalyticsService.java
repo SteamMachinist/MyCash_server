@@ -22,9 +22,9 @@ import java.util.stream.IntStream;
 @Service
 @RequiredArgsConstructor
 public class AnalyticsService {
-    private final OperationSumGetterService operationSumGetterService;
     private final CategoryService categoryService;
     private final CategoryMapper categoryMapper;
+    private final OperationSumGetterService operationSumGetterService;
 
     public List<CategoriesDaySum> getDayCategoriesSums(LocalDate begin, LocalDate end,
                                                        List<Category> categories, Account account,
@@ -38,7 +38,7 @@ public class AnalyticsService {
                                         .map(category ->
                                                 new Pair<>(
                                                         categoryMapper.toCategoryDTO(category),
-                                                        operationSumGetterService.getSumOperationsByAccountByCategoryByDate(
+                                                        operationSumGetterService.getOperationSumBy(
                                                                 account,
                                                                 category,
                                                                 year,
@@ -55,7 +55,7 @@ public class AnalyticsService {
 
         List<Double> incomes = months.stream()
                 .map(localDate -> operationSumGetterService
-                        .getSumOperationsByAccountByCategoryTypeByDate(
+                        .getOperationSumBy(
                                 account,
                                 CategoryType.INCOME,
                                 localDate.getYear(),
@@ -64,19 +64,20 @@ public class AnalyticsService {
 
         List<Double> expenses = months.stream()
                 .map(localDate -> operationSumGetterService
-                        .getSumOperationsByAccountByCategoryTypeByDate(
+                        .getOperationSumBy(
                                 account,
                                 CategoryType.EXPENSE,
                                 localDate.getYear(),
                                 localDate.getMonthValue()))
                 .collect(Collectors.toList());
 
+        int n = incomes.size();
         List<Double> balanceMonths = new ArrayList<>();
         balanceMonths.add(account.getBalance());
-        for (int i = 0; i < expenses.size(); i++) {
+        for (int i = 0; i < n; i++) {
             double current = balanceMonths.get(i);
-            current -= incomes.get(i);
-            current += expenses.get(i);
+            current -= incomes.get(n - 1- i);
+            current += expenses.get(n - 1 - i);
             balanceMonths.add(current);
         }
         Collections.reverse(balanceMonths);
