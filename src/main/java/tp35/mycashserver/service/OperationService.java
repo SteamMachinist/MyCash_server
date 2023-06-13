@@ -35,6 +35,7 @@ public class OperationService {
         operation.setValue(operationDTO.getValue());
         operation.setDateTime(LocalDateTime.parse(operationDTO.getDateTime()));
         operation.setComment(operationDTO.getComment());
+        operation.setPicturePath(operationDTO.getPicturePath());
         return operation;
     }
 

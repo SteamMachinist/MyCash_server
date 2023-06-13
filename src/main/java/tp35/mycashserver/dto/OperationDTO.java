@@ -14,4 +14,5 @@ public class OperationDTO {
     private Double value;
     private String dateTime;
     private String comment;
+    private String picturePath;
 }
