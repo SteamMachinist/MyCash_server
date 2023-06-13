@@ -45,7 +45,13 @@ public class AuthenticationController {
     @Operation(summary = "Register unregistered user")
     @PostMapping("/register")
     public TokenResponse register(@RequestBody RegisterRequest registerRequest) {
-        User user = authenticationService.registerUser(registerRequest);
-        return authenticationService.getUserToken(user);
+
+        try {
+            User user = authenticationService.registerUser(registerRequest);
+            return authenticationService.getUserToken(user);
+        }
+        catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Username is already in use");
+        }
     }
 }
