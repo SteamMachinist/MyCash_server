@@ -2,6 +2,7 @@ plugins {
 	java
 	id("org.springframework.boot") version "3.1.0"
 	id("io.spring.dependency-management") version "1.1.0"
+
 }
 
 group = "tp35"
@@ -13,6 +14,7 @@ configurations {
 		extendsFrom(configurations.annotationProcessor.get())
 	}
 }
+
 
 repositories {
 	mavenCentral()
@@ -44,6 +46,12 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
 
 	implementation("com.opencsv:opencsv:3.7")
+
+	testImplementation("junit:junit:4.13.1")
+	testImplementation("org.testcontainers:testcontainers:1.18.3")
+	testImplementation("org.testcontainers:junit-jupiter")
+	testImplementation("org.testcontainers:postgresql")
+	testImplementation("org.mockito:mockito-core:2.1.0")
 }
 
 tasks.withType<Test> {
