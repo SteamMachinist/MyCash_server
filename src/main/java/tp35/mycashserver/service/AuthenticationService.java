@@ -17,7 +17,6 @@ import tp35.mycashserver.request.FirstAccountRequest;
 import tp35.mycashserver.request.RegisterRequest;
 import tp35.mycashserver.response.TokenResponse;
 
-import java.util.Collections;
 import java.util.UUID;
 
 @Service
