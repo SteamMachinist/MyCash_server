@@ -16,4 +16,5 @@ public class Operation {
     private Double value;
     private LocalDateTime dateTime;
     private String comment;
+    private String picturePath;
 }

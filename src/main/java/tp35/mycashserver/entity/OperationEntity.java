@@ -27,6 +27,7 @@ public class OperationEntity {
     private Double value;
     private LocalDateTime dateTime;
     private String comment;
+    private String picturePath;
 
     @Override
     public boolean equals(Object o) {
