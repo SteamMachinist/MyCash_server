@@ -3,10 +3,7 @@ package tp35.mycashserver.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import tp35.mycashserver.mapper.CategoryMapper;
-import tp35.mycashserver.model.Account;
-import tp35.mycashserver.model.Category;
-import tp35.mycashserver.model.CategoryType;
-import tp35.mycashserver.model.User;
+import tp35.mycashserver.model.*;
 import tp35.mycashserver.response.AllMonthData;
 import tp35.mycashserver.response.AnalyticsResponse;
 import tp35.mycashserver.response.CategoriesDaySum;
@@ -16,6 +13,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.BinaryOperator;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -25,11 +24,13 @@ public class AnalyticsService {
     private final CategoryService categoryService;
     private final CategoryMapper categoryMapper;
     private final OperationSumGetterService operationSumGetterService;
+    private final OperationsGetterService operationsGetterService;
 
     public List<CategoriesDaySum> getDayCategoriesSums(LocalDate begin, LocalDate end,
                                                        List<Category> categories, Account account,
                                                        int year, int month) {
 
+        List<Operation> operations = operationsGetterService.getOperationsByAccountByDate(account, year, month);
         return IntStream.range(begin.getDayOfMonth(), end.getDayOfMonth() + 1)
                 .mapToObj(day ->
                         new CategoriesDaySum(
@@ -38,14 +39,14 @@ public class AnalyticsService {
                                         .map(category ->
                                                 new Pair<>(
                                                         categoryMapper.toCategoryDTO(category),
-                                                        operationSumGetterService.getOperationSumBy(
-                                                                account,
-                                                                category,
-                                                                year,
-                                                                month,
-                                                                day)))
+                                                        operations.stream()
+                                                                .filter(operation -> operation.getCategory().getBaseCategory().getName()
+                                                                        .equals(category.getBaseCategory().getName()))
+                                                                .filter(operation -> operation.getDateTime().getDayOfMonth() == day)
+                                                                .mapToDouble(Operation::getValue)
+                                                                .reduce(Double::sum).orElse(0.0)))
                                         .collect(Collectors.toList())))
-                .toList();
+                .collect(Collectors.toList());
     }
 
     public AllMonthData getAllMonthData(Account account, int year, int month) {
