@@ -18,10 +18,10 @@ public class OperationEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "account_id")
     private AccountEntity account;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "category_id")
     private CategoryEntity category;
     private Double value;

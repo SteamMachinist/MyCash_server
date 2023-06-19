@@ -19,10 +19,10 @@ public class CategoryEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "base_category_id")
     private BaseCategoryEntity baseCategory;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private UserEntity user;
     private Boolean isLimited;

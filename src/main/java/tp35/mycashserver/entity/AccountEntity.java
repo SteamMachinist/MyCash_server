@@ -17,7 +17,7 @@ public class AccountEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "owner_id")
     private UserEntity owner;
     private String name;
