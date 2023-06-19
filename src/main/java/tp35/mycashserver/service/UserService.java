@@ -42,6 +42,6 @@ public class UserService {
     }
 
     public void deleteUser(User user) {
-        userRepository.delete(userMapper.toUserEntity(user));
+        userRepository.deleteById(user.getId());
     }
 }
