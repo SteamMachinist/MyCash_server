@@ -42,7 +42,6 @@ public class AuthenticationController {
     @Operation(summary = "Register unregistered user")
     @PostMapping("/register")
     public TokenResponse register(@RequestBody RegisterRequest registerRequest) {
-
         try {
             User user = authenticationService.registerUser(registerRequest);
             return authenticationService.getUserToken(user);
