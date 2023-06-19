@@ -2,7 +2,9 @@ package tp35.mycashserver.service;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import tp35.mycashserver.dto.AccountDTO;
 import tp35.mycashserver.mapper.AccountMapper;
 import tp35.mycashserver.mapper.UserMapper;
@@ -33,6 +35,9 @@ public class AccountService {
     }
 
     public void addAccountForUser(Account account, User user) {
+        if (getAccountByOwnerAndName(user, account.getName()) != null) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT);
+        }
         account.setOwner(user);
         this.addAccount(account);
     }

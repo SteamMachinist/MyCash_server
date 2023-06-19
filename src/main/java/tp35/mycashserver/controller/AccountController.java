@@ -3,7 +3,9 @@ package tp35.mycashserver.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import tp35.mycashserver.dto.AccountDTO;
 import tp35.mycashserver.mapper.AccountMapper;
 import tp35.mycashserver.model.User;
@@ -38,8 +40,13 @@ public class AccountController {
     @Operation(summary = "Add account for user")
     @PostMapping("/add")
     public void addUserAccount(@RequestBody AccountDTO accountDTO) {
-        User user = authenticationService.getAuthenticatedUser();
-        accountService.addAccountForUser(accountMapper.toAccount(accountDTO), user);
+        try {
+            User user = authenticationService.getAuthenticatedUser();
+            accountService.addAccountForUser(accountMapper.toAccount(accountDTO), user);
+        }
+        catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "User already has an account with that name");
+        }
     }
 
     @Operation(summary = "Update user account")
