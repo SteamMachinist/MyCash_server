@@ -21,7 +21,16 @@ public class JwtSecurityFilterConfig {
     @Bean
     public SecurityFilterChain configure(final HttpSecurity http) throws Exception {
         return http
-                .securityMatcher("/api/auth/register", "/api/**", "/admin/**")
+                .securityMatcher(
+                        "/api/auth/register",
+                        "/api/auth/delete",
+                        "/api/account/**",
+                        "/api/category/**",
+                        "/api/main/**",
+                        "/api/prediction/**",
+                        "/api/analytics/**",
+                        "/api/predict/**",
+                        "/admin/**")
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(Customizer.withDefaults())
