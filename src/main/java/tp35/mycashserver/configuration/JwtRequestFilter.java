@@ -41,7 +41,14 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             return;
         }
 
-        final JwtUserDetails userDetails = (JwtUserDetails) userDetailsService.loadUserByUsername(username);
+        final JwtUserDetails userDetails;
+        try {
+            userDetails = (JwtUserDetails) userDetailsService.loadUserByUsername(username);
+        } catch (NullPointerException e) {
+            chain.doFilter(request, response);
+            return;
+        }
+
         final UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                 userDetails, null, userDetails.getAuthorities());
         authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
