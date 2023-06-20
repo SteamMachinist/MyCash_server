@@ -13,6 +13,7 @@ import tp35.mycashserver.model.User;
 import tp35.mycashserver.repository.AccountRepository;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -48,7 +49,12 @@ public class AccountService {
 
     public void updateAccount(User user, AccountDTO accountDTO, String accountName) {
         Account account = getAccountByOwnerAndName(user, accountName);
-        account.setName(accountDTO.getName());
+        if (!Objects.equals(accountDTO.getName(), accountName)) {
+            if (getAccountByOwnerAndName(user, accountDTO.getName()) != null) {
+                throw new ResponseStatusException(HttpStatus.CONFLICT);
+            }
+            account.setName(accountDTO.getName());
+        }
         account.setTarget(accountDTO.getTarget());
         account.setIsLimited(accountDTO.getIsLimited());
         account.setSpendingLimit(accountDTO.getSpendingLimit());

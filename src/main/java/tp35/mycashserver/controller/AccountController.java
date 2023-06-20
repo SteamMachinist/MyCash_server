@@ -52,8 +52,13 @@ public class AccountController {
     @Operation(summary = "Update user account")
     @PostMapping("/update/{accountName}")
     public void updateUserAccount(@RequestBody AccountDTO accountDTO, @PathVariable String accountName) {
-        User user = authenticationService.getAuthenticatedUser();
-        accountService.updateAccount(user, accountDTO, accountName);
+        try {
+            User user = authenticationService.getAuthenticatedUser();
+            accountService.updateAccount(user, accountDTO, accountName);
+        }
+        catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "User already has an account with that name");
+        }
     }
 
     @Operation(summary = "Delete user account")
