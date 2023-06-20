@@ -34,7 +34,7 @@ public class AuthenticationController {
             User user = authenticationService.loginUser(authenticationRequest);
             return authenticationService.getUserToken(user);
         }
-        catch (ResponseStatusException e) {
+        catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Wrong username of password");
         }
     }
